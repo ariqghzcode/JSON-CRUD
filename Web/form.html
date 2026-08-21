@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<style>
+    form {
+        border-radius: 5px;
+        background-color: #eff8ff;
+        padding: 20px;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        background-color: #04a96d;
+        color: white;
+        padding: 14px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 0px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #038958;
+    }
+
+    input[type=reset] {
+        width: 100%;
+        background-color: #390dea;
+        color: white;
+        padding: 14px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=reset]:hover {
+        background-color: #2f0bc0;
+    }
+    input:focus,
+    select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 1px #2563eb;
+        outline: none;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <form>
+        <input type="text" name="name" placeholder="insert your name"><br>
+        <input type="number" name="height" placeholder="insert your height"><br>
+        <input type="number" name="weight" placeholder="insert your weight" step="0.1"><br>
+        <input type="date" id="birthday" name="birthday"><br>
+        <select name="marital_status">
+            <option value="" disabled selected>have you married ?</option>
+            <option value="single">Single / Belum Menikah</option>
+            <option value="married">Married / Sudah Menikah</option>
+        </select><br>
+        <input type="submit" value="Save"><br>
+        <input type="reset" value="cancel">
+    </form>
+
+</body>
+
+</html>
