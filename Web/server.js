@@ -20,7 +20,7 @@ http.createServer((req, res) => {
                     <td>${item.weight}</td>
                     <td>${item.birthdate}</td>
                     <td>Not yet</td>
-                    <td><a href="https://www.google.com/">Update</a> <a href="/delete/${item.id}">Delete</a></td>
+                    <td><a href="/update/${item.id}">Update</a> <a href="/delete/${item.id}">Delete</a></td>
                 </tr>
                 `
             })
@@ -55,6 +55,42 @@ http.createServer((req, res) => {
             res.writeHead(301, { location: '/' })
             res.end()
         })
+    } else if (req.url.startsWith("/update")) {
+        const id = req.url.slice(8)
+        if (req.method == 'POST') {
+            let body = ""
+            req.on('data', (chunk) => {
+                body += chunk
+            }).on('end', () => {
+                const params = new URLSearchParams(body)
+                db.run("UPDATE siswa SET name = ?, height = ?, weight = ?, birthdate = ? WHERE id = ?",
+                    [params.get('name'), params.get('height'), params.get('weight'), params.get('birthdate'), id], (err) => {
+                        if (err) {
+                            console.log("gagal update data", err)
+                        }
+                        res.writeHead(301, { location: '/' })
+                        res.end()
+                    })
+            })
+        }
+        else {
+            db.get("SELECT * FROM siswa WHERE id = ?", [id], (err, row) => {
+                if (err || !row) {
+                    res.end("<h1>404 Error</h1>")
+                    return
+                }
+                let filledForm = form
+                    .replace('action="/add"', `action="/update/${row.id}"`)
+                    .replace('name="name" placeholder="insert your name"', `name="name" value="${row.name}"`)
+                    .replace('name="height" placeholder="insert your height"', `name="height" value="${row.height}"`)
+                    .replace('name="weight" placeholder="insert your weight" step="0.1"', `name="weight" value="${row.weight}"`)
+                    .replace('id="birthdate" name="birthdate"', `id="birthdate" name="birthdate" value="${row.birthdate}"`)
+
+                res.writeHead(200, { "content-type": "text/html" })
+                res.write(filledForm)
+                res.end()
+            })
+        }
     } else {
         res.end("<h1>404 Error</h1>")
     }
